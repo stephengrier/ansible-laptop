@@ -1,0 +1,21 @@
+apt_repositories:
+  add:
+    - "deb [signed-by=/etc/apt/keyrings/unit193-encryption-noble.gpg] http://ppa.launchpad.net/unit193/encryption/ubuntu noble main"
+  remove: []
+
+packages:
+  install:
+    - ansible
+    - git
+    - git-credential-oauth
+    - gnupg2
+    - htop
+    - keepassxc
+    - scdaemon
+    - veracrypt
+    - vim
+    - vim-pathogen
+    - yubikey-manager
+  remove: []
+
+dotfiles_repo_url: https://github.com/stephengrier/dotfiles

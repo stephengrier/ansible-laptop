@@ -1,0 +1,9 @@
+---
+
+- name: Configure a Linux laptop
+  hosts: all
+  gather_facts: no
+
+  roles:
+    - packages
+    - dotfiles

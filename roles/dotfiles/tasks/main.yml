@@ -1,0 +1,37 @@
+- name: Checkout dotfiles repo
+  ansible.builtin.git:
+    repo: '{{ dotfiles_repo_url }}'
+    dest: '{{ local_dotfiles_dir }}'
+
+- name: Build list of dotfiles to link
+  ansible.builtin.find:
+    paths: '{{ local_dotfiles_dir }}/dotfiles'
+    file_type: file
+    hidden: true
+    excludes: '.bashrc'
+  register: source_files
+
+- name: Create symlinks for each file
+  ansible.builtin.file:
+    src: "{{ item.path }}"
+    dest: "~/{{ item.path | basename }}"
+    state: link
+  loop: "{{ source_files.files }}"
+  loop_control:
+    label: Creating symlink for {{ item.path | basename }}
+
+- name: Build list of gnupg file to link
+  ansible.builtin.find:
+    paths: '{{ local_dotfiles_dir }}/gnupg'
+    file_type: file
+    pattern: '*.conf'
+  register: source_files
+
+- name: Create symlinks for each gnupg file
+  ansible.builtin.file:
+    src: "{{ item.path }}"
+    dest: "~/.gnupg/{{ item.path | basename }}"
+    state: link
+  loop: "{{ source_files.files }}"
+  loop_control:
+    label: Creating symlink for {{ item.path | basename }}

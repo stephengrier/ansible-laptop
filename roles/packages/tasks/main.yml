@@ -1,0 +1,25 @@
+- name: Add APT repositories
+  become: true
+  ansible.builtin.apt_repository:
+    repo: '{{ item }}'
+    state: present
+    codename: noble
+    update_cache: yes
+  loop: '{{ apt_repositories.add }}'
+  loop_control:
+    label: Adding apt repository {{ item }}
+
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
+    name: '{{ item }}'
+    state: present
+    update_cache: yes
+  loop: '{{ packages.install }}'
+  loop_control:
+    label: Installing package {{ item }}
+
+- name: Install nerdtree
+  ansible.builtin.git:
+    repo: https://github.com/scrooloose/nerdtree.git
+    dest: ~/.vim/bundle/nerdtree
