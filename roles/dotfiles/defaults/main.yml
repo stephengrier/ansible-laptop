@@ -1,3 +1,18 @@
 ---
-dotfiles_repo_url: ''
-local_dotfiles_dir: ~/.dotfiles
+dotfiles_user: "{{ ansible_user_id }}"
+gpg_key_file: '0xCD238B992B7C084B.pem'
+dotfiles:
+  - src: bash_aliases.j2
+    dest: '~/.bash_aliases'
+  - src: gitconfig.j2
+    dest: '~/.gitconfig'
+  - src: tmux.conf.j2
+    dest: '~/.tmux.conf'
+  - src: vimrc.j2
+    dest: '~/.vimrc'
+  - src: dirmngr.conf.j2
+    dest: '~/.gnupg/dirmngr.conf'
+  - src: gpg-agent.conf.j2
+    dest: '~/.gnupg/gpg-agent.conf'
+  - src: gpg.conf.j2
+    dest: '~/.gnupg/gpg.conf'

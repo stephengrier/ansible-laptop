@@ -6,4 +6,6 @@
 
   roles:
     - packages
-    - dotfiles
+    - role: dotfiles
+      vars:
+        dotfiles_user: 'steveg'

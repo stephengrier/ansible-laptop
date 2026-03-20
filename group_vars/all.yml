@@ -17,5 +17,3 @@ packages:
     - vim-pathogen
     - yubikey-manager
   remove: []
-
-dotfiles_repo_url: https://github.com/stephengrier/dotfiles
