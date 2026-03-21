@@ -10,3 +10,4 @@
       vars:
         dotfiles_user: 'steveg'
     - keyd
+    - alternatives

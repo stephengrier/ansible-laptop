@@ -19,3 +19,9 @@ packages:
     - vim-pathogen
     - yubikey-manager
   remove: []
+
+alternatives_list:
+  - name: editor
+    link: /usr/bin/editor
+    path: /usr/bin/vim.basic
+    state: selected

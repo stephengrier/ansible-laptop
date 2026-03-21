@@ -1,0 +1,12 @@
+- name: Manage alternatives
+  become: true
+  community.general.alternatives:
+    name: "{{ item.name }}"
+    link: "{{ item.link }}"
+    path: "{{ item.path }}"
+    priority: "{{ item.priority | default(omit) }}"
+    state: "{{ item.state | default('present') }}"
+  loop: "{{ alternatives_list }}"
+  loop_control:
+    label: "Setting alternative for {{ item.name }} to {{ item.path }}"
+  when: alternatives_list | length > 0
