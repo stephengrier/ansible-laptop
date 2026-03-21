@@ -1,0 +1,19 @@
+- name: Get a list of keyd config files to create
+  ansible.builtin.find:
+    paths: "{{ role_path }}/files"
+    file_type: file
+  register: keyd_files
+
+- name: Deploy all keyd config files
+  become: true
+  ansible.builtin.copy:
+    src: "{{ item.path }}"
+    dest: "/etc/keyd/{{ item.path | basename }}"
+    owner: root
+    group: root
+    mode: '0644'
+  loop: "{{ keyd_files.files }}"
+  loop_control:
+    label: "Creating /etc/keyd/{{ item.path | basename }}"
+  notify:
+    - Restart keyd

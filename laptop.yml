@@ -9,3 +9,4 @@
     - role: dotfiles
       vars:
         dotfiles_user: 'steveg'
+    - keyd
