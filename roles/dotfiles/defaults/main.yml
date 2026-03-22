@@ -16,3 +16,5 @@ dotfiles:
     dest: '~/.gnupg/gpg-agent.conf'
   - src: gpg.conf.j2
     dest: '~/.gnupg/gpg.conf'
+  - src: scdaemon.conf.j2
+    dest: '~/.gnupg/scdaemon.conf'
