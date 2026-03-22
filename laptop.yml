@@ -2,12 +2,9 @@
 
 - name: Configure a Linux laptop
   hosts: all
-  gather_facts: no
 
   roles:
     - packages
-    - role: dotfiles
-      vars:
-        dotfiles_user: 'steveg'
+    - dotfiles
     - keyd
     - alternatives
