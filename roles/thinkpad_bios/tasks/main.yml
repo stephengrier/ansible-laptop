@@ -1,0 +1,60 @@
+- name: Ensure fwupd is installed
+  package:
+    name: fwupd
+    state: present
+
+- name: Get current BIOS settings as JSON
+  become: true
+  command: fwupdmgr get-bios-settings --json
+  register: bios_settings_raw
+  changed_when: false
+
+- name: Parse BIOS settings JSON
+  set_fact:
+    bios_settings_current: "{{ bios_settings_raw.stdout | from_json }}"
+
+# Normalize into a dict: { "SettingName": "CurrentValue" }
+- name: Build current settings map
+  set_fact:
+    bios_settings_map: >-
+      {{
+        dict(
+          bios_settings_current['BiosSettings'] |
+          map(attribute='Name') |
+          zip(
+            bios_settings_current['BiosSettings'] |
+            map(attribute='BiosSettingCurrentValue')
+          )
+        )
+      }}
+
+- name: Show current BIOS settings (debug)
+  debug:
+    var: bios_settings_map
+    verbosity: 1
+
+- name: Apply BIOS settings if needed
+  become: true
+  command: >
+    fwupdmgr set-bios-setting {{ item.name }}={{ item.value }}
+  when:
+    - item.name in bios_settings_map
+    - bios_settings_map[item.name] != item.value
+  loop: "{{ bios_settings }}"
+  loop_control:
+    label: "Set BIOS setting {{ item.name }} to {{ item.value }}"
+  register: bios_apply_results
+  changed_when: bios_apply_results.rc == 0
+
+- name: Warn if BIOS setting not found
+  debug:
+    msg: "BIOS setting {{ item.name }} not found on this system"
+  when: item.name not in bios_settings_map
+  loop: "{{ bios_settings }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Check if a reboot is needed and warn if it is
+  debug:
+    msg: "⚠️  BIOS settings were changed. Please reboot the system for changes to take effect"
+  when: bios_apply_results is changed

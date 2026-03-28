@@ -25,3 +25,9 @@ alternatives_list:
     link: /usr/bin/editor
     path: /usr/bin/vim.basic
     state: selected
+
+bios_settings:
+  - name: "SleepState"
+    value: "Linux"
+  - name: "SecureBoot"
+    value: "Enable"

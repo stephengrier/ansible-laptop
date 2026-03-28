@@ -1,0 +1,6 @@
+# bios_settings is a list, where each item has 'name' and 'value' keys.
+# For example:
+# bios_settings:
+#   - name: "SecureBoot"
+#   - value: "Enable"
+bios_settings: []
