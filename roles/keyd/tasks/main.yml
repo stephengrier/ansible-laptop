@@ -1,3 +1,17 @@
+- name: Add keyd APT repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/keyd-team-ppa-noble.gpg] https://ppa.launchpadcontent.net/keyd-team/ppa/ubuntu noble main"
+    state: present
+    codename: noble
+    update_cache: yes
+
+- name: Ensure keyd is installed
+  become: true
+  ansible.builtin.package:
+    name: keyd
+    state: present
+
 - name: Get a list of keyd config files to create
   ansible.builtin.find:
     paths: "{{ role_path }}/files"
