@@ -2,8 +2,8 @@
 
 alias ll="ls -l"
 alias fix-pinentry='gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1'
-alias mount-encrypted='veracrypt --text --mount /dev/sda1 /mnt --slot 1'
-alias unmount-encrypted='veracrypt --text --dismount --slot 1'
+alias mount-encrypted='veracrypt --mount /dev/sda1 /mnt --slot 1'
+alias unmount-encrypted='veracrypt --dismount --slot 1'
 alias whatsmyip='curl ifconfig.me/ip'
 
 # There's already a .bashrc that comes from /etc/skel so we have to place things
