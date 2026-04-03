@@ -8,6 +8,7 @@
     - dotfiles
     - keyd
     - alternatives
+    - bluez
     - role: thinkpad_bios
       when:
         - ansible_product_version is defined and "thinkpad" in ansible_product_version | lower

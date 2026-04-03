@@ -1,0 +1,29 @@
+---
+- name: Ensure BlueZ package is installed
+  ansible.builtin.package:
+    name: "{{ bluez_package_name }}"
+    state: present
+
+- name: Ensure bluetooth config directory exists
+  ansible.builtin.file:
+    path: "{{ bluez_main_conf_path | dirname }}"
+    state: directory
+    mode: '0755'
+
+- name: Ensure AutoEnable is set correctly
+  ansible.builtin.lineinfile:
+    path: "{{ bluez_main_conf_path }}"
+    regexp: '^#?AutoEnable='
+    line: "AutoEnable={{ 'true' if bluez_autoenable else 'false' }}"
+    insertafter: '^\[Policy\]'
+    create: yes
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart bluetooth
+
+- name: Ensure bluetooth service is enabled and running
+  ansible.builtin.service:
+    name: "{{ bluez_service_name }}"
+    state: started
+    enabled: true

@@ -1,0 +1,5 @@
+---
+bluez_package_name: bluez
+bluez_service_name: bluetooth
+bluez_main_conf_path: /etc/bluetooth/main.conf
+bluez_autoenable: true

@@ -29,3 +29,5 @@ bios_settings:
     value: "Linux"
   - name: "SecureBoot"
     value: "Enable"
+
+bluez_autoenable: false
