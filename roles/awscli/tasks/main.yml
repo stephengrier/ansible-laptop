@@ -1,0 +1,54 @@
+---
+- name: Ensure target is Debian-based
+  assert:
+    that:
+      - ansible_os_family == "Debian"
+    fail_msg: "This role only supports Debian-based systems."
+
+- name: Install required packages
+  become: true
+  ansible.builtin.apt:
+    name:
+      - unzip
+      - curl
+    state: present
+    update_cache: yes
+
+- name: Create temporary directory for awscli download
+  become: true
+  ansible.builtin.file:
+    path: "{{ aws_cli_tmp_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Download AWS CLI v2 archive
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ aws_cli_download_url }}"
+    dest: "{{ aws_cli_tmp_dir }}/awscliv2.zip"
+    mode: '0644'
+
+- name: Unzip AWS CLI installer
+  become: true
+  ansible.builtin.unarchive:
+    src: "{{ aws_cli_tmp_dir }}/awscliv2.zip"
+    dest: "{{ aws_cli_tmp_dir }}"
+    remote_src: yes
+
+- name: Install AWS CLI v2
+  become: true
+  ansible.builtin.command: >
+    {{ aws_cli_tmp_dir }}/aws/install
+    --install-dir {{ aws_cli_install_dir }}
+    --bin-dir {{ aws_cli_bin_dir }}
+  args:
+    creates: "{{ aws_cli_bin_dir }}/aws"
+
+- name: Verify AWS CLI installation
+  ansible.builtin.command: aws --version
+  register: aws_cli_version_output
+  changed_when: false
+
+- name: Show AWS CLI version
+  ansible.builtin.debug:
+    msg: "{{ aws_cli_version_output.stdout }}"

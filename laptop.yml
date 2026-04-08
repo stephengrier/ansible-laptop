@@ -8,6 +8,7 @@
     - dotfiles
     - keyd
     - alternatives
+    - awscli
     - bluez
     - role: thinkpad_bios
       when:
