@@ -15,6 +15,7 @@ packages:
     - veracrypt
     - vim
     - vim-pathogen
+    - xclip
     - yubikey-manager
   remove: []
 
