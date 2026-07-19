@@ -10,6 +10,7 @@ packages:
     - git-credential-oauth
     - gnupg2
     - htop
+    - jq
     - keepassxc
     - scdaemon
     - veracrypt
